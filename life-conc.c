@@ -10,6 +10,8 @@ pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 pthread_t thread_pool[WORKER_THREADS + 1];
 int ids[WORKER_THREADS];
+int progress = 0;
+int iter = 0;
 
 void run_game(cell *W, int N, cell *temp) {
   cell *in = W;
@@ -43,19 +45,36 @@ void print_game(cell *W, int N, cell *temp) {
 
 void *worker(void *arg) {
   int id = *((int *) arg);
+  int done;
   printf("worker thread %d initialized\n", id);
-  pthread_exit(NULL);
-}
 
-void *master() {
-  printf("master thread initialized\n");
+  for (int i = 0; i < 5; i++) {
+    pthread_mutex_lock(&mutex);
+
+    progress += 1;
+    printf("id: %d, progress: %d, iter: %d\n", id, progress, iter);
+
+    if (progress == WORKER_THREADS) {
+      printf("done in id %d\n", id);
+      progress = 0;
+      iter += 1;
+      pthread_cond_broadcast(&cond);
+    } else {
+      pthread_cond_wait(&cond, &mutex);
+    }
+
+    pthread_mutex_unlock(&mutex);
+  }
+
   pthread_exit(NULL);
 }
 
 int main() {
-  int N = 11;
-  cell *W = malloc(N * N * sizeof(cell));
-  cell *temp = malloc(N * N * sizeof(cell));
+  // int N = 11;
+  // cell *W = malloc(N * N * sizeof(cell));
+  // cell *temp = malloc(N * N * sizeof(cell));
+  // border_grid(W, N);
+  // print_game(W, N, temp);
 
   for (int i = 0; i < WORKER_THREADS; i++) {
     ids[i] = i;
@@ -65,12 +84,5 @@ int main() {
     }
   }
 
-  if (pthread_create(&thread_pool[WORKER_THREADS], NULL, master, NULL)) {
-    printf("failure creating master thread\n");
-    exit(1);
-  }
-
   pthread_exit(NULL);
-  // border_grid(W, N);
-  // print_game(W, N, temp);
 }
