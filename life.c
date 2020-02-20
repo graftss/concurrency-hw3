@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "life.h"
 
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
 void copy_grid(cell *in, int N, cell *out) {
   for (int i = 0; i < N * N; i++) {
     out[i] = in[i];
@@ -35,12 +38,11 @@ cell next_cell_state(cell *W, int N, int i) {
   int top_r = N - 1;
   int bot_l = N * (N - 1);
   int bot_r = bot_l + N - 1;
+  int M = N * N;
 
-  // some of these are garbage if the cell is near either end of the
-  // array, but that shouldn't matter since we aren't using them...?
   cell nbs[8] = {
-    W[i - N - 1], W[i - N], W[i - N + 1], W[i - 1],
-    W[i + 1], W[i + N - 1], W[i + N], W[i + N + 1]
+    W[max(i - N - 1, 0)], W[max(i - N, 0)], W[max(i - N + 1, 0)], W[max(i - 1, 0)],
+    W[max(M, i + 1)], W[max(M, i + N - 1)], W[max(M, i + N)], W[max(M, i + N + 1)]
   };
 
   // layout of nbs:
