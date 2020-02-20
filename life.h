@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_ITERATIONS 2
+#define MAX_ITERATIONS 1000
 
 typedef char cell;
 #define ALIVE 1

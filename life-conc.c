@@ -11,12 +11,28 @@ pthread_cond_t cond_done = PTHREAD_COND_INITIALIZER;
 
 pthread_t thread_pool[WORKER_THREADS + 1];
 int ids[WORKER_THREADS];
+int iter = 0;
 int iter_progress = 0;
 int done = 0;
 
 cell *grid = NULL;
 cell *temp = NULL;
 int N;
+
+void end_iteration(cell *out) {
+  iter += 1;
+  iter_progress = 0;
+
+  if (iter == MAX_ITERATIONS || all_dead(out, N)) {
+    if (out != grid) {
+      copy_grid(out, N, grid);
+    }
+
+    done = 1;
+  }
+
+  pthread_cond_broadcast(&cond_iter);
+}
 
 void *worker(void *arg) {
   int id = *((int *) arg);
@@ -27,7 +43,8 @@ void *worker(void *arg) {
   int max_index = (id + 1) * N * N / WORKER_THREADS - 1;
 
   for (int i = 0; i < MAX_ITERATIONS; i++) {
-    // compute the source and target grids
+    // compute the source and target grids based on the
+    // parity of the current iteration
     in = i % 2 ? temp : grid;
     out = i % 2 ? grid : temp;
 
@@ -38,41 +55,33 @@ void *worker(void *arg) {
     pthread_mutex_lock(&mutex);
 
     iter_progress += 1;
-    // printf("id: %d, iter_progress: %d, iter: %d\n", id, iter_progress, i);
-
     if (iter_progress == WORKER_THREADS) {
-      // printf("done in id %d\n", id);
-      iter_progress = 0;
-
-      if (all_dead(out, N)) {
-        if (in == temp) clear_grid(in, N);
-        done = 1;
-        pthread_cond_broadcast(&cond_done);
-      } else {
-        pthread_cond_broadcast(&cond_iter);
-      }
+      end_iteration(out);
     } else {
-      pthread_cond_wait(&cond_iter, &mutex);
+      while (i == iter) {
+        pthread_cond_wait(&cond_iter, &mutex);
+      }
     }
 
     pthread_mutex_unlock(&mutex);
-  }
 
-  if (id == 0) {
-    done = 1;
-    pthread_cond_broadcast(&cond_done);
+    if (done) break;
   }
 
   pthread_exit(NULL);
 }
 
 int main() {
-  N = 17;
+  int i;
+  N = 5;
   grid = malloc(N * N * sizeof(cell));
   temp = malloc(N * N * sizeof(cell));
   border_grid(grid, N);
 
-  for (int i = 0; i < WORKER_THREADS; i++) {
+  printf("initial state:\n");
+  print_grid(grid, N);
+
+  for (i = 0; i < WORKER_THREADS; i++) {
     ids[i] = i;
     if (pthread_create(&thread_pool[i], NULL, worker, (void *)(&ids[i]))) {
       printf("failure creating worker thread\n");
@@ -80,9 +89,13 @@ int main() {
     }
   }
 
-  while (!done) {
-    pthread_cond_wait(&cond_done, &mutex);
+  for (i = 0; i < WORKER_THREADS; i++) {
+    pthread_join(thread_pool[i], NULL);
   }
+
+  printf("\n\nfinal state:\n");
+  print_grid(grid, N);
+  printf("\n");
 
   pthread_exit(NULL);
 }
