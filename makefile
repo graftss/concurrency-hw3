@@ -9,3 +9,9 @@ build-conc:
 
 test-conc: build-conc
 	./life-conc
+
+build:
+	gcc -O3 -Wall -Wextra -std=gnu99 -o life timing.c main.c
+
+test: build
+	./life
