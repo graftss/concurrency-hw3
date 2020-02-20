@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include "life.h"
 
-#define WORKER_THREADS 2
+#define WORKER_THREADS 5
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond_iter = PTHREAD_COND_INITIALIZER;
@@ -49,7 +49,7 @@ void *worker(void *arg) {
     out = i % 2 ? grid : temp;
 
     for (int idx = min_index; idx <= max_index; idx++) {
-      printf("%d", id);
+      // printf("%d", id);
       out[idx] = next_cell_state(in, N, idx);
     }
 
@@ -57,7 +57,7 @@ void *worker(void *arg) {
 
     iter_progress += 1;
     if (iter_progress == WORKER_THREADS) {
-      printf("\n");
+      // printf("\n");
       end_iteration(out);
     } else {
       while (i == iter) {

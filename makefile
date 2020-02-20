@@ -11,7 +11,7 @@ test-conc: build-conc
 	./life-conc
 
 build:
-	gcc -O3 -Wall -Wextra -std=gnu99 -o life timing.c life.c life-conc.c life-seq.c main.c
+	gcc -pthread -O3 -Wall -Wextra -std=gnu99 -o life timing.c life.c life-conc.c life-seq.c main.c
 
 test: build
 	./life

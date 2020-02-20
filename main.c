@@ -4,7 +4,7 @@
 #include "life-conc.h"
 
 int main() {
-  int N = 10;
+  int N = 100;
 
   long start = get_nano_time();
   run_life_conc(N);
