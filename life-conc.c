@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include "life.h"
 
-#define WORKER_THREADS 7
+#define WORKER_THREADS 2
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond_iter = PTHREAD_COND_INITIALIZER;
@@ -49,6 +49,7 @@ void *worker(void *arg) {
     out = i % 2 ? grid : temp;
 
     for (int idx = min_index; idx <= max_index; idx++) {
+      printf("%d", id);
       out[idx] = next_cell_state(in, N, idx);
     }
 
@@ -56,6 +57,7 @@ void *worker(void *arg) {
 
     iter_progress += 1;
     if (iter_progress == WORKER_THREADS) {
+      printf("\n");
       end_iteration(out);
     } else {
       while (i == iter) {
@@ -79,8 +81,8 @@ void run_life_conc(int grid_size) {
   temp = malloc(N * N * sizeof(cell));
   border_grid(grid, N);
 
-  printf("initial state:\n");
-  print_grid(grid, N);
+  // printf("initial state:\n");
+  // print_grid(grid, N);
 
   for (i = 0; i < WORKER_THREADS; i++) {
     ids[i] = i;
@@ -94,13 +96,7 @@ void run_life_conc(int grid_size) {
     pthread_join(thread_pool[i], NULL);
   }
 
-  printf("\n\nfinal state:\n");
-  print_grid(grid, N);
-  printf("\n");
-
-  pthread_exit(NULL);
-}
-
-int main() {
-  run_life_conc(50);
+  // printf("\n\nfinal state:\n");
+  // print_grid(grid, N);
+  // printf("\n");
 }

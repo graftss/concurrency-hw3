@@ -38,9 +38,6 @@ void run_life_seq(int N) {
   cell *W = malloc(N * N * sizeof(cell));
   border_grid(W, N);
 
-  print_game(W, N);
-}
-
-int main() {
-  run_life_seq(50);
+  run_game(W, N);
+  // print_game(W, N);
 }
