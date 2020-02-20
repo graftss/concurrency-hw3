@@ -34,10 +34,13 @@ void print_game(cell *W, int N) {
   print_grid(W, N);
 }
 
-int main() {
-  int N = 11;
+void run_life_seq(int N) {
   cell *W = malloc(N * N * sizeof(cell));
   border_grid(W, N);
 
   print_game(W, N);
+}
+
+int main() {
+  run_life_seq(50);
 }

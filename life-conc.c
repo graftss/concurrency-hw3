@@ -71,9 +71,10 @@ void *worker(void *arg) {
   pthread_exit(NULL);
 }
 
-int main() {
+void run_life_conc(int grid_size) {
+  N = grid_size;
   int i;
-  N = 5;
+
   grid = malloc(N * N * sizeof(cell));
   temp = malloc(N * N * sizeof(cell));
   border_grid(grid, N);
@@ -98,4 +99,8 @@ int main() {
   printf("\n");
 
   pthread_exit(NULL);
+}
+
+int main() {
+  run_life_conc(50);
 }
