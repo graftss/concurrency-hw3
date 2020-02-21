@@ -38,11 +38,11 @@ cell next_cell_state(cell *W, int N, int i) {
   int top_r = N - 1;
   int bot_l = N * (N - 1);
   int bot_r = bot_l + N - 1;
-  int M = N * N;
+  int M = N * N - 1;
 
   cell nbs[8] = {
     W[max(i - N - 1, 0)], W[max(i - N, 0)], W[max(i - N + 1, 0)], W[max(i - 1, 0)],
-    W[max(M, i + 1)], W[max(M, i + N - 1)], W[max(M, i + N)], W[max(M, i + N + 1)]
+    W[min(M, i + 1)], W[min(M, i + N - 1)], W[min(M, i + N)], W[min(M, i + N + 1)]
   };
 
   // layout of nbs:

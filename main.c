@@ -1,10 +1,9 @@
-#include <stdio.h>
 #include "timing.h"
 #include "life-seq.h"
 #include "life-conc.h"
 
 int main() {
-  int N = 100;
+  int N = 50;
 
   long start = get_nano_time();
   run_life_conc(N);

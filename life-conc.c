@@ -3,13 +3,12 @@
 #include <pthread.h>
 #include "life.h"
 
-#define WORKER_THREADS 5
+#define WORKER_THREADS 4
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond_iter = PTHREAD_COND_INITIALIZER;
-pthread_cond_t cond_done = PTHREAD_COND_INITIALIZER;
 
-pthread_t thread_pool[WORKER_THREADS + 1];
+pthread_t thread_pool[WORKER_THREADS];
 int ids[WORKER_THREADS];
 int iter = 0;
 int iter_progress = 0;
@@ -98,5 +97,5 @@ void run_life_conc(int grid_size) {
 
   // printf("\n\nfinal state:\n");
   // print_grid(grid, N);
-  // printf("\n");
+  printf("\n");
 }
