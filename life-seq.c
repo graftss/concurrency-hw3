@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "life.h"
+#include "timing.h"
+
+
 
 void run_game(cell *W, int N) {
   cell temp[N * N];
@@ -40,4 +43,10 @@ void run_life_seq(int N) {
 
   run_game(W, N);
   // print_game(W, N);
+}
+
+int main() {
+  long start = get_nano_time();
+  run_life_seq(GRID_SIZE);
+  print_time_since(start, "sequential");
 }

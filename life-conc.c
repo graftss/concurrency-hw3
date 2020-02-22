@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "life.h"
+#include "timing.h"
 
-#define WORKER_THREADS 4
+#define WORKER_THREADS 1
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond_iter = PTHREAD_COND_INITIALIZER;
@@ -16,7 +17,7 @@ int done = 0;
 
 cell *grid = NULL;
 cell *temp = NULL;
-int N;
+int N = GRID_SIZE;
 
 void end_iteration(cell *out) {
   iter += 1;
@@ -72,13 +73,8 @@ void *worker(void *arg) {
   pthread_exit(NULL);
 }
 
-void run_life_conc(int grid_size) {
-  N = grid_size;
+void run_life_conc() {
   int i;
-
-  grid = malloc(N * N * sizeof(cell));
-  temp = malloc(N * N * sizeof(cell));
-  border_grid(grid, N);
 
   // printf("initial state:\n");
   // print_grid(grid, N);
@@ -91,11 +87,22 @@ void run_life_conc(int grid_size) {
     }
   }
 
+
   for (i = 0; i < WORKER_THREADS; i++) {
     pthread_join(thread_pool[i], NULL);
   }
 
   // printf("\n\nfinal state:\n");
   // print_grid(grid, N);
-  printf("\n");
+  // printf("\n");
+}
+
+int main() {
+  grid = malloc(N * N * sizeof(cell));
+  temp = malloc(N * N * sizeof(cell));
+  border_grid(grid, N);
+
+  long start = get_nano_time();
+  run_life_conc();
+  print_time_since(start, "concurrent");
 }

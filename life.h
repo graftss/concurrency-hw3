@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define GRID_SIZE 50
 #define MAX_ITERATIONS 1000
 
 typedef char cell;
