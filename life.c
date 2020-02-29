@@ -5,22 +5,22 @@
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
-void copy_grid(cell *in, int N, cell *out) {
+void copy_grid(cell *in, cell *out) {
   for (int i = 0; i < N * N; i++) {
     out[i] = in[i];
   }
 }
 
-void clear_grid(cell *W, int N) {
+void clear_grid(cell *W) {
   for (int i = 0; i < N * N; i++) {
     W[i] = DEAD;
   }
 }
 
-void border_grid(cell *W, int N) {
+void border_grid(cell *W) {
   int bot_l = N * (N - 1);
 
-  clear_grid(W, N);
+  clear_grid(W);
 
   for (int i = 0; i < N; i++) {
     W[i] = ALIVE;
@@ -31,7 +31,7 @@ void border_grid(cell *W, int N) {
 }
 
 // returns the next value of the cell at index `i`
-cell next_cell_state(cell *W, int N, int i) {
+cell next_cell_state(cell *W, int i) {
   cell currentState = W[i];
 
   int top_l = 0;
@@ -67,13 +67,13 @@ cell next_cell_state(cell *W, int N, int i) {
   }
 }
 
-void next_grid_state(cell *in, int N, cell *out) {
+void next_grid_state(cell *in, cell *out) {
   for (int i = 0; i < N * N; i++) {
-    out[i] = next_cell_state(in, N, i);
+    out[i] = next_cell_state(in, i);
   }
 }
 
-int all_dead(cell *W, int N) {
+int all_dead(cell *W) {
   for (int i = 0; i < N * N; i++) {
     if (W[i] == ALIVE) return 0;
   }
@@ -81,7 +81,7 @@ int all_dead(cell *W, int N) {
   return 1;
 }
 
-int num_alive(cell *W, int N) {
+int num_alive(cell *W) {
   int result = 0;
 
   for (int i = 0; i < N * N; i++) {
@@ -93,7 +93,7 @@ int num_alive(cell *W, int N) {
   return result;
 }
 
-void print_grid(cell *W, int N) {
+void print_grid(cell *W) {
   for (int i = 0; i < N * N; i++) {
     printf(alive(W[i]) ? "X" : ".");
 

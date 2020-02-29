@@ -14,7 +14,6 @@ int done = 0;
 
 cell *grid = NULL;
 cell *temp = NULL;
-int N = GRID_SIZE;
 
 void *worker(void *arg) {
   int id = *((int *) arg);
@@ -31,7 +30,7 @@ void *worker(void *arg) {
 
   for (int idx = min_index; idx <= max_index; idx++) {
     // printf("%d", id);
-    out[idx] = next_cell_state(in, N, idx);
+    out[idx] = next_cell_state(in, idx);
   }
 
   pthread_exit(NULL);
@@ -42,7 +41,7 @@ void run_life_conc() {
 
   if (PRINT_GRID) {
     printf("initial state:\n");
-    print_grid(grid, N);
+    print_grid(grid);
   }
 
   for (iter = 0; iter < MAX_ITERATIONS; iter++) {
@@ -69,11 +68,11 @@ void run_life_conc() {
 int main() {
   grid = malloc(N * N * sizeof(cell));
   temp = malloc(N * N * sizeof(cell));
-  border_grid(grid, N);
+  border_grid(grid);
 
   long start = get_nano_time();
   run_life_conc();
   print_time_since(start, "concurrent");
 
-  printf("cells alive: %d\n", num_alive(grid, N));
+  printf("cells alive: %d\n", num_alive(grid));
 }
