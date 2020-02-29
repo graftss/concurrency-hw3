@@ -28,21 +28,24 @@ void run_game(cell *W, int N) {
 }
 
 void print_game(cell *W, int N) {
-  printf("initial state:\n");
-  print_grid(W, N);
+  if (SHOULD_PRINT) {
+    printf("initial state:\n");
+    print_grid(W, N);
+  }
 
   run_game(W, N);
 
-  printf("\nfinal state:\n");
-  print_grid(W, N);
+  if (SHOULD_PRINT) {
+    printf("\nfinal state:\n");
+    print_grid(W, N);
+  }
 }
 
 void run_life_seq(int N) {
   cell *W = malloc(N * N * sizeof(cell));
   border_grid(W, N);
 
-  run_game(W, N);
-  // print_game(W, N);
+  print_game(W, N);
 }
 
 int main() {

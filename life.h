@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define GRID_SIZE 50
-#define MAX_ITERATIONS 1000
+#define GRID_SIZE 200
+#define MAX_ITERATIONS 100
+#define SHOULD_PRINT 0
 
 typedef char cell;
 #define ALIVE 1

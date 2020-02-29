@@ -5,7 +5,7 @@ test-seq: build-seq
 	./life-seq
 
 build-conc:
-	gcc -pthread -O0 -Wall -Wextra -std=gnu99 -o life-conc timing.c life.c life-conc.c
+	gcc -pthread -O0 -Wall -Wextra -std=gnu99 -o life-conc timing.c life.c life-conc-redo.c
 
 test-conc: build-conc
 	./life-conc
