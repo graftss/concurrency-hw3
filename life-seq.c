@@ -3,8 +3,6 @@
 #include "life.h"
 #include "timing.h"
 
-
-
 void run_game(cell *W, int N) {
   cell temp[N * N];
 
@@ -28,28 +26,28 @@ void run_game(cell *W, int N) {
 }
 
 void print_game(cell *W, int N) {
-  if (SHOULD_PRINT) {
+  if (PRINT_GRID) {
     printf("initial state:\n");
     print_grid(W, N);
   }
 
   run_game(W, N);
 
-  if (SHOULD_PRINT) {
+  if (PRINT_GRID) {
     printf("\nfinal state:\n");
     print_grid(W, N);
   }
 }
 
-void run_life_seq(int N) {
+int main() {
+  int N = GRID_SIZE;
+
   cell *W = malloc(N * N * sizeof(cell));
   border_grid(W, N);
 
-  print_game(W, N);
-}
-
-int main() {
   long start = get_nano_time();
-  run_life_seq(GRID_SIZE);
+  print_game(W, N);
   print_time_since(start, "sequential");
+
+  printf("cells alive: %d\n", num_alive(W, N));
 }

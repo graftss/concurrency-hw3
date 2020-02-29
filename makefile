@@ -1,5 +1,5 @@
 build-seq:
-	gcc -O3 -Wall -Wextra -std=gnu99 -o life-seq life.c timing.c life-seq.c
+	gcc -O0 -Wall -Wextra -std=gnu99 -o life-seq life.c timing.c life-seq.c
 
 test-seq: build-seq
 	./life-seq

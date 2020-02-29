@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 #define GRID_SIZE 200
-#define MAX_ITERATIONS 100
-#define SHOULD_PRINT 0
+#define MAX_ITERATIONS 1000
+#define PRINT_GRID 0
 
 typedef char cell;
 #define ALIVE 1
@@ -18,4 +18,5 @@ void border_grid(cell *W, int N);
 cell next_cell_state(cell *W, int N, int i);
 void next_grid_state(cell *in, int N, cell *out);
 int all_dead(cell *W, int N);
+int num_alive(cell *W, int N);
 void print_grid(cell *W, int N);

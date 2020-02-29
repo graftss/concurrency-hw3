@@ -40,7 +40,7 @@ void *worker(void *arg) {
 void run_life_conc() {
   int i;
 
-  if (SHOULD_PRINT) {
+  if (PRINT_GRID) {
     printf("initial state:\n");
     print_grid(grid, N);
   }
@@ -74,4 +74,6 @@ int main() {
   long start = get_nano_time();
   run_life_conc();
   print_time_since(start, "concurrent");
+
+  printf("cells alive: %d\n", num_alive(grid, N));
 }

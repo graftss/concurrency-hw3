@@ -91,6 +91,18 @@ int all_dead(cell *W, int N) {
   return 1;
 }
 
+int num_alive(cell *W, int N) {
+  int result = 0;
+
+  for (int i = 0; i < N * N; i++) {
+    if (W[i] == ALIVE) {
+      result += 1;
+    }
+  }
+
+  return result;
+}
+
 void print_grid(cell *W, int N) {
   for (int i = 0; i < N * N; i++) {
     printf(alive(W[i]) ? "X" : ".");
