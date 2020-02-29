@@ -38,37 +38,27 @@ cell next_cell_state(cell *W, int N, int i) {
   int top_r = N - 1;
   int bot_l = N * (N - 1);
   int bot_r = bot_l + N - 1;
-  int M = N * N - 1;
-
-  cell nbs[8] = {
-    W[max(i - N - 1, 0)], W[max(i - N, 0)], W[max(i - N + 1, 0)], W[max(i - 1, 0)],
-    W[min(M, i + 1)], W[min(M, i + N - 1)], W[min(M, i + N)], W[min(M, i + N + 1)]
-  };
-
-  // layout of nbs:
-  // 0 1 2
-  // 3   4
-  // 5 6 7
 
   int aliveNeighbors =
       // top left corner
-      i == top_l     ? alive3(nbs, 4, 6, 7)
+      i == top_l     ? alive3(W, i - 1, i + N, i + N + 1)
       // top right corner
-    : i == top_r     ? alive3(nbs, 3, 5, 6)
+    : i == top_r     ? alive3(W, i - 1, i + N - 1, i + N)
       // bottom left corner
-    : i == bot_l     ? alive3(nbs, 1, 2, 4)
+    : i == bot_l     ? alive3(W, i - N, i - N + 1, i + 1)
       // bottom right corner
-    : i == bot_r     ? alive3(nbs, 0, 1, 3)
+    : i == bot_r     ? alive3(W, i - N - 1, i - N, i - 1)
       // non-corner top edge
-    : i <  top_r     ? alive5(nbs, 3, 4, 5, 6, 7)
+    : i <  top_r     ? alive5(W, i - 1, i + 1, i + N - 1, i + N, i + N + 1)
       // non-corner left edge
-    : i % N == 0     ? alive5(nbs, 1, 2, 4, 6, 7)
+    : i % N == 0     ? alive5(W, i - N, i - N + 1, i + 1, i + N, i + N + 1)
       // non-corner right edge
-    : i % N == top_r ? alive5(nbs, 0, 1, 3, 5, 6)
+    : i % N == top_r ? alive5(W, i - N - 1, i - N, i - 1, i + N - 1, i + N)
       // non-corner bottom edge
-    : i > bot_l      ? alive5(nbs, 0, 1, 2, 3, 4)
+    : i > bot_l      ? alive5(W, i - N - 1, i - N, i - N + 1, i - 1, i + 1)
       // non-edge
-    :                  alive3(nbs, 0, 1, 2) + alive5(nbs, 3, 4, 5, 6, 7);
+    : alive3(W, i - N - 1, i - N, i - N + 1) +
+      alive5(W, i - 1, i + 1, i + N - 1, i + N, i + N + 1);
 
   switch (aliveNeighbors) {
     case 2: return currentState;
