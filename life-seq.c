@@ -13,8 +13,8 @@ void run_game(cell *W) {
     in = i % 2 ? temp : W;
     out = i % 2 ? W : temp;
 
-    if (all_dead(in)) {
-      if (in == temp) clear_grid(W);
+    if (all_dead(in) && in == temp) {
+      clear_grid(W);
     }
 
     next_grid_state(in, out);

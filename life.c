@@ -5,6 +5,11 @@
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
+int top_l = 0;
+int top_r = N - 1;
+int bot_l = N * (N - 1);
+int bot_r = N * N - 1;
+
 void copy_grid(cell *in, cell *out) {
   for (int i = 0; i < N * N; i++) {
     out[i] = in[i];
@@ -33,11 +38,6 @@ void border_grid(cell *W) {
 // returns the next value of the cell at index `i`
 cell next_cell_state(cell *W, int i) {
   cell currentState = W[i];
-
-  int top_l = 0;
-  int top_r = N - 1;
-  int bot_l = N * (N - 1);
-  int bot_r = bot_l + N - 1;
 
   int aliveNeighbors =
       // top left corner
