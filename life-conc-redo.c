@@ -4,7 +4,7 @@
 #include "life.h"
 #include "timing.h"
 
-#define WORKER_THREADS 4
+#define WORKER_THREADS 16
 
 pthread_t thread_pool[WORKER_THREADS];
 int ids[WORKER_THREADS];
