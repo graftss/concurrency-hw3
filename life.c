@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "life.h"
 
-#define min(a, b) ((a) < (b) ? (a) : (b))
-#define max(a, b) ((a) > (b) ? (a) : (b))
-
 int top_l = 0;
 int top_r = N - 1;
 int bot_l = N * (N - 1);
@@ -64,12 +61,6 @@ cell next_cell_state(cell *W, int i) {
     case 2: return currentState;
     case 3: return ALIVE;
     default: return DEAD;
-  }
-}
-
-void next_grid_state(cell *in, cell *out) {
-  for (int i = 0; i < N * N; i++) {
-    out[i] = next_cell_state(in, i);
   }
 }
 
