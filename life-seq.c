@@ -48,9 +48,9 @@ int main() {
 
   long start = get_real_time();
   print_game(grid);
-  print_real_time_since(start, "sequential");
+  print_real_time_since(start, "  sequential");
 
-  printf("cells alive: %d\n", num_alive(grid));
+  printf("  cells alive: %d\n", num_alive(grid));
 
   write_grid(grid, "life-seq-result.txt");
 }

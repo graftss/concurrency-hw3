@@ -71,13 +71,16 @@ void run_life_conc() {
 }
 
 int main() {
-  border_grid(grid);
+  for (int trial = 0; trial < 3; trial++) {
+    border_grid(grid);
 
-  long start = get_real_time();
-  run_life_conc();
-  print_real_time_since(start, "concurrent");
+    long start = get_real_time();
+    run_life_conc();
+    float duration = diff_nano_times(start, get_real_time());
 
-  printf("cells alive: %d\n", num_alive(grid));
+    printf("  concurrent (trial %d): %.8f seconds\n", trial, duration);
+    printf("  cells alive (trial %d): %d\n", trial, num_alive(grid));
+  }
 
   write_grid(grid, "life-conc-result.txt");
 }
