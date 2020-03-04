@@ -43,9 +43,9 @@ int main() {
   cell *W = malloc(N * N * sizeof(cell));
   border_grid(W);
 
-  long start = get_nano_time();
+  long start = get_real_time();
   print_game(W);
-  print_time_since(start, "sequential");
+  print_real_time_since(start, "sequential");
 
   printf("cells alive: %d\n", num_alive(W));
 }

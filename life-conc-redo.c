@@ -4,7 +4,7 @@
 #include "life.h"
 #include "timing.h"
 
-#define WORKER_THREADS 16
+#define WORKER_THREADS 4
 
 pthread_t thread_pool[WORKER_THREADS];
 int ids[WORKER_THREADS];
@@ -73,9 +73,9 @@ void run_life_conc() {
 int main() {
   border_grid(grid);
 
-  long start = get_nano_time();
+  long start = get_real_time();
   run_life_conc();
-  print_time_since(start, "concurrent");
+  print_real_time_since(start, "concurrent");
 
   printf("cells alive: %d\n", num_alive(grid));
 }

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 50
+#define N 400
 #define MAX_ITERATIONS 1000
 #define PRINT_GRID 0
 
