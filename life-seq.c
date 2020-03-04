@@ -16,6 +16,7 @@ void run_game(cell *grid) {
 
     if (all_dead(in) && in == temp) {
       clear_grid(grid);
+      break;
     }
 
     for (int i = 0; i < N * N; i++) {
@@ -50,4 +51,6 @@ int main() {
   print_real_time_since(start, "sequential");
 
   printf("cells alive: %d\n", num_alive(grid));
+
+  write_grid(grid, "life-seq-result.txt");
 }

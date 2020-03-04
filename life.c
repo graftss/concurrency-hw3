@@ -93,3 +93,17 @@ void print_grid(cell *W) {
     }
   }
 }
+
+void write_grid(cell *W, char *path) {
+  FILE *file = fopen(path, "w");
+
+  for (int i = 0; i < N * N; i++) {
+    fputc(alive(W[i]) ? 'X' : '.', file);
+
+    if (i % N == N - 1) {
+      fputc('\n', file);
+    }
+  }
+
+  fclose(file);
+}

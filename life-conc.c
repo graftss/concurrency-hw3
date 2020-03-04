@@ -78,4 +78,6 @@ int main() {
   print_real_time_since(start, "concurrent");
 
   printf("cells alive: %d\n", num_alive(grid));
+
+  write_grid(grid, "life-conc-result.txt");
 }

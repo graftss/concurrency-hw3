@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 100
+#define N 50
 #define MAX_ITERATIONS 1000
 #define PRINT_GRID 0
 
@@ -19,3 +19,4 @@ cell next_cell_state(cell *W, int i);
 int all_dead(cell *W);
 int num_alive(cell *W);
 void print_grid(cell *W);
+void write_grid(cell *W, char* path);
